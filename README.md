@@ -25,7 +25,7 @@ Copy folder for each recording to `/scratch/janc/playback` and run on a local ma
 cd /scratch/janc/playback
 video_preProcessLocal
 ```
-This will run through all videos that have not been pre-processed in `dat/` so you can mark the fly positions. The script will present you with the first frame of each video and use [`roipoly`](https://www.mathworks.com/help/images/ref/roipoly.html) for annotate the flies: 1) click on the flies, 2) when done right click to close the polygon (even if there's just a single fly), and 3) double click inside the polygon to move on to the next video.
+This will run through all videos that have not been pre-processed in `dat/` so you can mark the fly positions. The script will present you with the first frame of each video and use [`roipoly`](https://www.mathworks.com/help/images/ref/roipoly.html) for annotating the flies: 1) click on the flies, 2) when done right click to close the polygon (even if there's just a single fly), and 3) double click inside the polygon to move on to the next video.
 
 ## Track videos
 To track the videos run on spock:
