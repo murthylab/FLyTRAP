@@ -36,10 +36,10 @@ matlab -r 'video_submit([1 1 1]);exit'
 ```
 This will submit three types of jobs that will process the video in serial order:
 1. 1 preprocessing jobs - detect chambers and initializes tracker
-2. 12 tracker jobs - tracks files and creates in *res.mat per chamber
+2. 12 tracker jobs - tracks files and creates one *res.mat per chamber
 3. 1 postprocessing jobs - aggregrate *res.mat per video to `/Volumes/jan/playback/res/*_spd.mat` 
 
-See `help video_submit` for arguments
+See `help video_submit` for arguments.
 
 The generated `*_spd.mat` files contain the following:
 - `spdF` 
