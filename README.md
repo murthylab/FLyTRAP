@@ -1,7 +1,7 @@
 # Installation
 __ffmpeg__ for reading frames (used by VideoReaderFFMPEG):
 - OSX: `brew install ffmpeg`
-- WIN: download binaries from [a](b)
+- WIN: download binaries from [here](https://ffmpeg.zeranoe.com/builds/)
 - looks for the binary in `/usr/local/bin` (OSX) or `C:\Program Files\ffmpeg\bin` (WIN). see `help  VideoReaderFFMPEG` for how to set custom path.
 
 __GhostScript__ for saving figures. download binaries from the [official website](https://www.ghostscript.com/download/gsdnld.html). add directory with binary (`gs` or `gs.exe`) to your system path.
