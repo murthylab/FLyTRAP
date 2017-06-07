@@ -1,29 +1,35 @@
 cc()
 addpath(genpath('src'))
 tb = readtable('playback.xlsx');
-stimStrgs = readtable('stimStrgs.txt');
+playbackLists = readtable('playbackLists.xlsx');
 if ismac
    resFolder = '/Volumes/murthy/jan/playback/res/';
 elseif ispc
    resFolder = 'Z:\jan\playback\res\';
 end
 %%
-stiIdx = size(stimStrgs,1):-1:size(stimStrgs,1)-9;
-disp(stimStrgs(stiIdx,:))
+stiIdx = size(playbackLists,1):-1:size(playbackLists,1)-9;
+disp(playbackLists(stiIdx,:))
 %%
 for sti = stiIdx
    try
       %% load results
       clear rr
       clear oriG
-      stimStrg = stimStrgs.stimName{sti};
+      stimStrg = playbackLists.stimName{sti};
       disp(stimStrg)
       carrierIdx = find(strcmp(tb.stimulus, stimStrg));
       fileList = tb.date(carrierIdx);
       fileList = cellfun(@horzcat,  repmat({resFolder}, length(fileList),1), fileList, repmat({'_spd'}, length(fileList),1),'UniformOutput',false);
       rr = readFiles(fileList(1:end));
       % load meta data
-      config()
+      rr.newFs = 10;
+      rr.stimIdx = eval(playbackLists.stimidx{sti});
+      rr.baseLineIdx = eval(playbackLists.baselineidx{sti});
+      rr.badRecording = eval(playbackLists.badrecording{sti});
+      rr.xLabel = playbackLists.xlabel{sti};
+      rr.x = num2cellstr(eval(playbackLists.xvalues{sti}));
+
       %%
       rr.spdF = bsxfun(@times,rr.spdF,rr.FPS./rr.PXperMM);                  % convert to mm/s
       rr.baseSpd = nanmean(rr.spdF(rr.baseLineIdx,:));                     % avg. speed during baseLineIdx
