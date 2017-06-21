@@ -52,7 +52,8 @@ for fil = 1:length(fileName)
       end
       nFlies = size(r.tracks,2);
       % optoState 
-      modeVal = rDat.ctrl.MODE;
+      lg = readtable(fullfile(fileDir, [trunk 'log.txt']), 'Delimiter', '\t');
+      modeVal = lg.MODE;
       %% convert px/frame to mm/s
       chamberSizeMM = 50;%mm - as measured
       chamberSizePX = fp.w;%px - as detected in video
@@ -103,7 +104,6 @@ for fil = 1:length(fileName)
          end
          
          if typ==3
-            lg = readtable(fullfile(fileDir, [trunk 'log.txt']), 'Delimiter', '\t');
             expectedStimStart = cumsum(stiLenSeq)'/10;
             %% extimate global delay between VID and DAQ
             LEDvaluesRegular = interp1(actualFrameTimes(fp.initFrame+ (0:length(LEDvalues)-1)), LEDvalues, regularFrameTimes, 'linear');
