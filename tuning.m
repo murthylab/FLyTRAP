@@ -1,7 +1,12 @@
 cc()
 addpath(genpath('src'))
-tb = readtable('playback.xlsx');
-playbackLists = readtable('playbackLists.xlsx');
+% tb = readtable('playback.xlsx');
+% playbackLists = readtable('playbackLists.xlsx');
+googleSheet = GetGoogleSpreadsheet('1Cld_cK8rZ2hDrUdq62m8VqQZ-ZFrKEkOytXEtac3WlY', '875551024');
+googleSheet2 = GetGoogleSpreadsheet('1Cld_cK8rZ2hDrUdq62m8VqQZ-ZFrKEkOytXEtac3WlY', '847074082');
+tb = cell2table(googleSheet(2:end,:), 'VariableNames', googleSheet(1,:));
+playbackLists = cell2table(googleSheet2(2:end,:), 'VariableNames', googleSheet2(1,:));
+playbackLists = playbackLists(~cellfun(@isempty,playbackLists.stimName),:); % remove empty rows
 if ismac
    resFolder = '/Volumes/murthy/jan/playback/res/';
 elseif ispc

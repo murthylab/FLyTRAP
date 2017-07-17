@@ -14,9 +14,10 @@ Raw data should be copied to `/scratch/janc/playback/dat/`. After the recordings
 
 Tracking results are saved to `/bucket/murthy/jan/playback/res/` on bucket one `VIDEOFILENAME_spd.mat` files per recording.
 
-Metadata for generating tuning curves reside in two databases:
-- `playback.xlsx` describes each recorded video: filename, genotype and age, playlist, housing condition. Lives currently in [google docs](https://docs.google.com/spreadsheets/d/1Cld_cK8rZ2hDrUdq62m8VqQZ-ZFrKEkOytXEtac3WlY/edit?usp=sharing). 
-- `playbackLists.xlsx` describes playlists\tuning curves: playlist name (in `playback.xlsx`), x-axis and x-tick labels, etc.
+Metadata for generating tuning curves reside in [google docs](https://docs.google.com/spreadsheets/d/1Cld_cK8rZ2hDrUdq62m8VqQZ-ZFrKEkOytXEtac3WlY/edit?usp=sharing):
+- the sheet `list` describes each recorded video: filename, genotype and age, playlist, housing condition.
+- the sheet `playbackLists` describes playlists\tuning curves: playlist name (in `list`), x-axis and x-tick labels, etc.
+- the sheets are pulled from google docs automatically
 
 # Running analyses
 ## Annotate videos
