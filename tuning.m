@@ -13,7 +13,7 @@ elseif ispc
    resFolder = 'Z:\jan\playback\res\';
 end
 %%
-stiIdx = size(playbackLists,1):-1:size(playbackLists,1)-9;
+stiIdx = size(playbackLists,1)-16:-1:size(playbackLists,1)-19;
 disp(playbackLists(stiIdx,:))
 %%
 for sti = stiIdx
