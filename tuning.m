@@ -185,7 +185,7 @@ for sti = stiIdx
          [hL, hE] = myErrorBar(1:rr.stis,nanmean(rr.avgDeltaSpeedPerFly,1)', sem(rr.avgDeltaSpeedPerFly)');
          set([hL hE],'Color','k','LineWidth',2)
          gscatter(1:rr.stis, nanmean(rr.avgDeltaSpeedPerFly,1), 1:rr.stis, cmap,[],24,'off')
-         set(gca, 'XTick',1:length(rr.x));
+         set(gca, 'XTick',1:length(rr.x), 'XTickLabel', rr.x);
          ylabel('\Deltas [mm/s]')
          xlabel(rr.xLabel)
          
