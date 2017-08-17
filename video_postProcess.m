@@ -2,6 +2,7 @@
 % song recording/playback for all types of recordings!!
 % ?? maybe also call getLocomotorFeatures ??
 %%
+resFolder = '/jukebox/murthy/jan/playback/';
 fileName = getFileNames('*_init.mat');
 for fil = 1:length(fileName)
    try
@@ -282,7 +283,7 @@ for fil = 1:length(fileName)
       end
       %%
       fprintf('saving to %s\n', fullfile('../../res/', [fileNam(1:end-5) '_spd']) )
-      save(fullfile('/jukebox/murthy/jan/playback/res/', [fileNam(1:end-5) '_spd']), ...
+      save(fullfile([resFolder 'res/', [fileNam(1:end-5) '_spd']), ...
          'spdF', 'posF', 'oriF', 'rDat', 'flyID', 'stiID', 'modID', 'newFs', 'resOns', 'LEDerror', 'chamberSizePX', 'chamberSizeMM', 'FPS')
       %%
       %video_cleanup()

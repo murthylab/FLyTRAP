@@ -1,19 +1,19 @@
 cc()
 addpath(genpath('src'))
-% tb = readtable('playback.xlsx');
-% playbackLists = readtable('playbackLists.xlsx');
 googleSheet = GetGoogleSpreadsheet('1Cld_cK8rZ2hDrUdq62m8VqQZ-ZFrKEkOytXEtac3WlY', '875551024');
 googleSheet2 = GetGoogleSpreadsheet('1Cld_cK8rZ2hDrUdq62m8VqQZ-ZFrKEkOytXEtac3WlY', '847074082');
+
 tb = cell2table(googleSheet(2:end,:), 'VariableNames', googleSheet(1,:));
 playbackLists = cell2table(googleSheet2(2:end,:), 'VariableNames', googleSheet2(1,:));
 playbackLists = playbackLists(~cellfun(@isempty,playbackLists.stimName),:); % remove empty rows
+clear googleSheet*
 if ismac
-   resFolder = '/Volumes/murthy/jan/playback/res/';
+   resFolder = '/Volumes/murthy/playback/res/';
 elseif ispc
    resFolder = 'Z:\jan\playback\res\';
 end
 %%
-stiIdx = size(playbackLists,1)-16:-1:size(playbackLists,1)-19;
+stiIdx = size(playbackLists,1)-3:size(playbackLists,1)-2;
 disp(playbackLists(stiIdx,:))
 %%
 for sti = stiIdx
@@ -185,7 +185,7 @@ for sti = stiIdx
          [hL, hE] = myErrorBar(1:rr.stis,nanmean(rr.avgDeltaSpeedPerFly,1)', sem(rr.avgDeltaSpeedPerFly)');
          set([hL hE],'Color','k','LineWidth',2)
          gscatter(1:rr.stis, nanmean(rr.avgDeltaSpeedPerFly,1), 1:rr.stis, cmap,[],24,'off')
-         set(gca, 'XTick',1:length(rr.x));
+         set(gca, 'XTick',1:length(rr.x), 'XTickLabel', rr.x);
          ylabel('\Deltas [mm/s]')
          xlabel(rr.xLabel)
          

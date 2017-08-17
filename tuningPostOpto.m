@@ -1,6 +1,14 @@
 cc()
-playbackLists = readtable('playbackLists.xlsx');
-playbackLists = playbackLists(contains(playbackLists.stimName, 'atr'),:);
+googleSheet = GetGoogleSpreadsheet('1Cld_cK8rZ2hDrUdq62m8VqQZ-ZFrKEkOytXEtac3WlY', '875551024');
+googleSheet2 = GetGoogleSpreadsheet('1Cld_cK8rZ2hDrUdq62m8VqQZ-ZFrKEkOytXEtac3WlY', '847074082');
+
+tb = cell2table(googleSheet(2:end,:), 'VariableNames', googleSheet(1,:));
+playbackLists = cell2table(googleSheet2(2:end,:), 'VariableNames', googleSheet2(1,:));
+playbackLists = playbackLists(~cellfun(@isempty,playbackLists.stimName),:); % remove empty rows
+clear googleSheet*
+
+% playbackLists = readtable('playbackLists.xlsx');
+playbackLists = playbackLists(contains(playbackLists.stimName, 'atr') & ~contains(playbackLists.stimName, 'OPTOpulses'),:);
 %%
 for fil = 1:size(playbackLists,1)
    try
