@@ -2,21 +2,21 @@
 % song recording/playback for all types of recordings!!
 % ?? maybe also call getLocomotorFeatures ??
 %%
-resFolder = '/jukebox/murthy/jan/playback/';
+resFolder = '/jukebox/murthy/playback/';
 fileName = getFileNames('*_init.mat');
 for fil = 1:length(fileName)
    try
       %% fix delay
       trunk = fileName{fil}(1:11);
-      
+
       [fileDir, fileNam, fileExt] = fileparts(fileName{fil});
       load(fullfile(fileDir, [trunk 'vDat.mat']));
       disp(['POST-processing ' fileName(1:end-5)])
-      
+
       if ~exist('rDat','var')
          disp('no RDAT - normalize file')
       end
-      
+
       try
          disp(rDat.stimFileName)
       catch
@@ -25,13 +25,13 @@ for fil = 1:length(fileName)
          end
       end
       newFs = 10;%Hz
-      
+
       thisResFiles =  getFileNames([fileNam(1:end-5) '_res_*']);
       if length(thisResFiles)<1
          fprintf('   no results yet in %s\n', fileNam)
          continue
       end
-      
+
       clear res progress;
       for rs = 1:length(thisResFiles)
          disp(thisResFiles{rs})
@@ -42,7 +42,7 @@ for fil = 1:length(fileName)
       completeIdx = argmax(progress);
       r  = res(completeIdx).p;
       fp = res(completeIdx).fp;
-      
+
       r.tracks = [];
       r.area = [];
       r.orientation = [];
@@ -52,7 +52,7 @@ for fil = 1:length(fileName)
          r.orientation(:,end+(1:size(res(rs).fp.tracks,2)),:) = res(rs).fp.orientation;
       end
       nFlies = size(r.tracks,2);
-      % optoState 
+      % optoState
       lg = readtable(fullfile(fileDir, [trunk 'log.txt']), 'Delimiter', '\t');
       modeVal = lg.MODE;
       %% convert px/frame to mm/s
@@ -75,11 +75,11 @@ for fil = 1:length(fileName)
       thresholds = [.66 1 1.5 2 5 10];
       clear idx;
       match = inf*ones(1,100);
-      
+
       % FIX:
       % id LEDon sequentially - biasing search by expected time of next
       % stimulus!! - make robust to skips
-      
+
       for typ = 1:3
          % try with raw LED trace or with LED envelope
          LEDvalues = r.LEDvalues(fp.initFrame:end);
@@ -90,20 +90,20 @@ for fil = 1:length(fileName)
          end
          LEDvalues = LEDvalues - nanmedian(LEDvalues);
          LEDvalues(fp.initFrame) = LEDvalues(fp.initFrame+1); % why? to get rid of onset peaks?
-         
+
          if isfield(rDat, 'stiStartSample')
             stis = rDat.sti;
          else % for vids recorded with older version
             stis = [1 rDat.sti];% need to add first stimulus - always started with stim #1 but did not put in rDat.sti since stim was queued outside of callback
          end
-         
+
          stiLen = cellfun(@length, rDat.stimAll);
          if isfield(rDat, 'selectedStimulus')
             stiLenSeq = mapVal(stis , rDat.selectedStimulus, stiLen);
          else % for vids recorded with older version
             stiLenSeq = mapVal(stis , sort(unique(rDat.sti)), stiLen);
          end
-         
+
          if typ==3
             expectedStimStart = cumsum(stiLenSeq)'/10;
             %% extimate global delay between VID and DAQ
@@ -156,7 +156,7 @@ for fil = 1:length(fileName)
                %
                minLen = min(length(resOns), length(stiLenSeq));
                matchRMSE(cnt) = sqrt(nanmean( (stiLenSeq(1:minLen-1)/1000 - diff(resOns(1:minLen))).^2 ));
-               
+
                if ispc || ismac
                   subplot(3,4,9:11)
                   plot(stiLenSeq/1000,'.-k', 'MarkerSize', 12)
@@ -219,18 +219,18 @@ for fil = 1:length(fileName)
       fprintf('best match with stim sequence RMSE: %1.2f ms\n', LEDerror/newFs*1000)
       %% if playback - reshape data to get trial-by-trial traces
       pos = r.tracks;                        % fly positions - px for each frame
-      
+
       for fly = 1:nFlies
          for dd = 1:2
             pos(:,fly,dd) = medfilt1(pos(:,fly,dd), 5);
          end
       end
-      
+
       ori = r.orientation;                   % fly orientation
       spd = sqrt(sum(diff(pos,[],1).^2,3));  % calc speed - in px/frame
       spd = [spd(1,:); spd];                 % prepend to keep array size consistent
       spd = spd(fp.initFrame:end,:);         % keep only speeds for which we have valid frames
-      
+
       % interpolate fly behaviors to a regular grid
       resSpd = zeros(length(regularFrameTimes), nFlies);
       resPos = zeros(length(regularFrameTimes), nFlies, 2);
@@ -243,7 +243,7 @@ for fil = 1:length(fileName)
             resOri(:,fly,dd) = interp1(actualFrameTimes, pos(:,fly, dd), regularFrameTimes);
          end
       end
-      
+
       % reshape speed to trials
       spdF = nan(length(-30*newFs:60*newFs),(length(resOns)-1)*nFlies);
       posF = nan(length(-30*newFs:60*newFs),(length(resOns)-1)*nFlies, 2);
@@ -256,13 +256,13 @@ for fil = 1:length(fileName)
          try
             tmp = resSpd(resOns(ons) + (-30*newFs:60*newFs),:);
             spdF(1:length(tmp), cnt + (1:nFlies)) = tmp;
-            
+
             tmp = resPos(resOns(ons) + (-30*newFs:60*newFs),:,:);
             posF(1:length(tmp), cnt + (1:nFlies), :) = tmp;
-            
+
             tmp = resOri(resOns(ons) + (-30*newFs:60*newFs),:,:);
             oriF(1:length(tmp), cnt + (1:nFlies), :) = tmp;
-            
+
             flyID(1, cnt + (1:nFlies)) = 1:nFlies;
             stiID(1, cnt + (1:nFlies)) = stis(ons);
             modID(1, cnt + (1:nFlies)) = modeVal(ons);
