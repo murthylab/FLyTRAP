@@ -10,34 +10,35 @@ Download scripts `git clone https://github.com/postpop/playbackanalyses.git` and
 
 
 # Organization of data
-Raw data should be copied to `/scratch/janc/playback/dat/`. After the recordings have been processed copy to `/bucket/murthy/janc/playback/dat.processed/` regularly to free up space on scratch (and to make sure everything is backed up safely).
+Raw data should be copied to `/scratch/murthyplayback/dat/`. After the recordings have been processed copy to `/bucket/murthy/playback/dat.processed/` regularly to free up space on scratch (and to make sure everything is backed up safely).
 
-Tracking results are saved to `/bucket/murthy/jan/playback/res/` on bucket one `VIDEOFILENAME_spd.mat` files per recording.
+Tracking results are saved to `/bucket/murthy/playback/res/` on bucket one `VIDEOFILENAME_spd.mat` files per recording.
 
-Metadata for generating tuning curves reside in two databases:
-- `playback.xlsx` describes each recorded video: filename, genotype and age, playlist, housing condition. Lives currently in [google docs](https://docs.google.com/spreadsheets/d/1Cld_cK8rZ2hDrUdq62m8VqQZ-ZFrKEkOytXEtac3WlY/edit?usp=sharing). 
-- `playbackLists.xlsx` describes playlists\tuning curves: playlist name (in `playback.xlsx`), x-axis and x-tick labels, etc.
+Metadata for generating tuning curves reside in [google docs](https://docs.google.com/spreadsheets/d/1Cld_cK8rZ2hDrUdq62m8VqQZ-ZFrKEkOytXEtac3WlY/edit?usp=sharing):
+- the sheet `list` describes each recorded video: filename, genotype and age, playlist, housing condition.
+- the sheet `playbackLists` describes playlists\tuning curves: playlist name (in `list`), x-axis and x-tick labels, etc.
+- the sheets are pulled from google docs automatically
 
 # Running analyses
 ## Annotate videos
-Copy folder for each recording to `/scratch/janc/playback` and run on a local machine:
+Copy folder for each recording to `/scratch/murthyplayback` and run on a _local_ machine:
 ```matlab
-cd /scratch/janc/playback
+cd /scratch/murthyplayback
 video_preProcessLocal
 ```
 This will run through all videos that have not been pre-processed in `dat/` so you can mark the fly positions. The script will present you with the first frame of each video and use [`roipoly`](https://www.mathworks.com/help/images/ref/roipoly.html) for annotating the flies: 1) click on the flies, 2) when done right click to close the polygon (even if there's just a single fly), and 3) double click inside the polygon to move on to the next video.
 
 ## Track videos
-To track the videos run on spock:
+To track the videos run _on spock_:
 ```shell
-cd /scratch/janc/playback
+cd /scratch/murthyplayback
 module load matlab/R2016b
 matlab -r 'video_submit([1 1 1]);exit'
 ```
 This will submit three types of jobs that will process the video in serial order:
 1. 1 preprocessing jobs - detect chambers and initializes tracker
 2. 12 tracker jobs - tracks files and creates one *res.mat per chamber
-3. 1 postprocessing jobs - aggregrate *res.mat per video to `/Volumes/jan/playback/res/*_spd.mat` 
+3. 1 postprocessing jobs - aggregrate *res.mat per video to `/bucket/murthy/playback/res/*_spd.mat` 
 
 See `help video_submit` for arguments.
 
