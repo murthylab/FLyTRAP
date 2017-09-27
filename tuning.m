@@ -10,7 +10,7 @@ clear googleSheet*
 if ismac
    resFolder = '/Volumes/murthy/playback/res/';
 elseif ispc
-   resFolder = 'Z:\jan\playback\res\';
+   resFolder = 'Z:\playback\res\';
 end
 %%
 stiIdx = size(playbackLists,1)-5:size(playbackLists,1)-4;
