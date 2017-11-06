@@ -110,7 +110,7 @@ for fil = 1:length(fileName)
             LEDvaluesRegular = interp1(actualFrameTimes(fp.initFrame+ (0:length(LEDvalues)-1)), LEDvalues, regularFrameTimes, 'linear');
             stimOnsets = zeros(size(LEDvaluesRegular));
             stimOnsets( floor(expectedStimStart/1000*newFs)) = 1;
-            [xc, lags] = xcov(LEDvaluesRegular,stimOnsets,mean(lg.silencePre)/1000*newFs);
+            [xc, lags] = xcov(LEDvaluesRegular,stimOnsets, ceil(mean(lg.silencePre)/1000*newFs));
             delay = lags(argmax(xc))*1000/newFs;% ms
             clf
             plot(lags, xc)
