@@ -102,8 +102,8 @@ for fil = 1:length(fileName)
                 disp(ME.getReport())
             end
         end
-        fp.vr.clean();
-        save([trunk '_init.mat'], 'fp','fpc','gmmBox','gmmInit','bbox')
-        fprintf(' saving.\n')
     end
+    fp.vr.clean();
+    save([trunk '_init.mat'], 'fp','fpc','gmmBox','gmmInit','bbox')
+    fprintf(' saving.\n')
 end
