@@ -103,7 +103,11 @@ for fil = 1:length(fileName)
             end
         end
     end
-    fp.vr.clean();
-    save([trunk '_init.mat'], 'fp','fpc','gmmBox','gmmInit','bbox')
-    fprintf(' saving.\n')
+    try
+        fp.vr.clean();
+        save([trunk '_init.mat'], 'fp','fpc','gmmBox','gmmInit','bbox')
+        fprintf(' saving.\n')
+    catch ME
+        disp(ME.getReport())
+    end
 end
