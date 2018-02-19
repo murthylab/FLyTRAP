@@ -33,7 +33,11 @@ for sti = stiIdx
       rr.baseLineIdx = eval(playbackLists.baselineidx{sti});
       rr.badRecording = eval(playbackLists.badrecording{sti});
       rr.xLabel = playbackLists.xlabel{sti};
-      rr.x = num2cellstr(eval(playbackLists.xvalues{sti}));
+      if ~iscell(eval(playbackLists.xvalues{sti}))
+        rr.x = num2cellstr(eval(playbackLists.xvalues{sti}));
+      else
+        rr.x = eval(playbackLists.xvalues{sti})';
+      end
 
       %%
       rr.spdF = bsxfun(@times,rr.spdF,rr.FPS./rr.PXperMM);                  % convert to mm/s
