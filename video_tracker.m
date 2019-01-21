@@ -114,7 +114,7 @@ if p.readLED
    end
    if PLAYBACK
       p.LEDidxX = 550:fp.vr.Height;
-      p.LEDidxY = 1:200;
+      p.LEDidxY = 1:500;
    end
    if LONGCHAMBER
       p.LEDidxX = 170:fp.vr.Height;
