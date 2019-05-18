@@ -90,7 +90,7 @@ for fil = length(fileNames):-1:1
       else %% manually mark flies
          clf
          axis('off')
-         disp('   mark fly positions. first female, than male.')
+         disp('   mark fly positions. first female, then male.')
          fp.initFlies(fp.initFrame);
       end
       disp('   done.')
