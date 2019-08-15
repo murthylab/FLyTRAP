@@ -6,18 +6,18 @@ __ffmpeg__ for reading frames (used by VideoReaderFFMPEG):
 
 __GhostScript__ for saving figures. download binaries from the [official website](https://www.ghostscript.com/download/gsdnld.html). add directory with binary (`gs` or `gs.exe`) to your system path.
 
-Download scripts `git clone https://github.com/postpop/playbackanalyses.git` and add the directory `playbackanalyses` and its subdirectories to your matlab path: `addpath(genpath('src')); savepath()`.
+Download scripts `git clone https://github.com/murthylab/FLyTRAP.git`, cd into the newly created directory `FLyTRAP` and add the `src` subdirectory to your matlab path: `addpath(genpath('src')); savepath()`.
 
 
 # Organization of data
-Raw data should be copied to `/scratch/murthyplayback/dat/`. After the recordings have been processed copy to `/bucket/murthy/playback/dat.processed/` regularly to free up space on scratch (and to make sure everything is backed up safely).
+Raw data should be copied to `/scratch/murthyplayback/dat/`. After the recordings have been processed copy to `/bucket/murthy/playback/dat.processed/` regularly to free up space on `scratch` (and to make sure everything is backed up safely).
 
-Tracking results are saved to `/bucket/murthy/playback/res/` on bucket one `VIDEOFILENAME_spd.mat` files per recording.
+Tracking results are saved to `/bucket/murthy/playback/res/` on `bucket` one `VIDEOFILENAME_spd.mat` file per recording.
 
-Metadata for generating tuning curves reside in [google docs](https://docs.google.com/spreadsheets/d/1Cld_cK8rZ2hDrUdq62m8VqQZ-ZFrKEkOytXEtac3WlY/edit?usp=sharing):
-- the sheet `list` describes each recorded video: filename, genotype and age, playlist, housing condition.
-- the sheet `playbackLists` describes playlists\tuning curves: playlist name (in `list`), x-axis and x-tick labels, etc.
-- the sheets are pulled from google docs automatically
+Metadata for generating tuning curves reside in [a spreadsheet on google docs](https://docs.google.com/spreadsheets/d/1Cld_cK8rZ2hDrUdq62m8VqQZ-ZFrKEkOytXEtac3WlY/edit?usp=sharing):
+- The sheet `list` describes each recorded video: filename, genotype and age, playlist, housing condition.
+- The sheet `playbackLists` describes playlists\tuning curves: playlist name (in `list`), x-axis and x-tick labels, etc.
+- The sheets are pulled from google docs automatically by `tuning.m`.
 
 # Running analyses
 ## Annotate videos
@@ -36,17 +36,11 @@ module load matlab/R2016b
 matlab -r 'video_submit([1 1 1]);exit'
 ```
 This will submit three types of jobs that will process the video in serial order:
-1. 1 preprocessing jobs - detect chambers and initializes tracker
-2. 12 tracker jobs - tracks files and creates one *res.mat per chamber
-3. 1 postprocessing jobs - aggregrate *res.mat per video to `/bucket/murthy/playback/res/*_spd.mat` 
+1. _Preprocessing:_ detects chambers and initializes tracker
+2. _Tracking:_ tracks files and creates one `*res.mat` file per chamber
+3. _Postprocessing:_ aggregrates the data in the `*res.mat` for each experiment and copies the results to `/bucket/murthy/playback/res/*_spd.mat` 
 
 See `help video_submit` for arguments.
-
-The generated `*_spd.mat` files contain the following:
-- `spdF` 
-- `stiID`
-- `recID` 
-- ...
 
 ## Generate tuning curves
 See `tuning.m`.
