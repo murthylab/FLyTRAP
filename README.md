@@ -1,12 +1,12 @@
 # Installation
-__ffmpeg__ for reading frames (used by VideoReaderFFMPEG):
+__ffmpeg__ for reading frames (used by [VideoReaderFFMPEG](https://github.com/postpop/VideoReaderFFMPEG)):
 - OSX: `brew install ffmpeg`
 - WIN: download binaries from [here](https://ffmpeg.zeranoe.com/builds/)
-- looks for the binary in `/usr/local/bin` (OSX) or `C:\Program Files\ffmpeg\bin` (WIN). see `help  VideoReaderFFMPEG` for how to set custom path.
+- `VideoReaderFFMPEG` look for the `ffmpeg` binary in `/usr/local/bin` (OSX) or `C:\Program Files\ffmpeg\bin` (WIN). See `help  VideoReaderFFMPEG` for how to set a custom path to the binary.
 
-__GhostScript__ for saving figures. download binaries from the [official website](https://www.ghostscript.com/download/gsdnld.html). add directory with binary (`gs` or `gs.exe`) to your system path.
+__GhostScript__ for saving figures. Download binaries from the [official website](https://www.ghostscript.com/download/gsdnld.html). Add directory with the ghostscript binary (`gs` or `gs.exe`) to your system path.
 
-Download scripts `git clone https://github.com/murthylab/FLyTRAP.git`, cd into the newly created directory `FLyTRAP` and add the `src` subdirectory to your matlab path: `addpath(genpath('src')); savepath()`.
+Download the code `git clone https://github.com/murthylab/FLyTRAP.git`, cd into the newly created directory `FLyTRAP` and add the `src` subdirectory to your matlab path: `addpath(genpath('src')); savepath()`.
 
 
 # Organization of data
